@@ -1,0 +1,16 @@
+h2:hover {
+    position: relative;
+    color: #ff2283;
+}
+
+*[tooltip]:hover:after {
+    content: attr(tooltip);
+    padding: 8px 10px;
+    color: #85003a;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    z-index: 20;
+    border-radius: 3px;
+    box-shadow: 0 0 2px #c0c1c2;
+}
