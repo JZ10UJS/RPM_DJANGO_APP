@@ -1,3 +1,16 @@
 {% extends 'scan/base.html' %}
 {% block main %}
+    </form>
+    <table ng-controller="indexCtrl as vm" style="color:white">
+        <caption>
+            <input ng-model="vm.info.name" ng-minlength="4"/>
+            <input ng-model="vm.info.age" type="number"/>
+            <button ng-click="vm.submit()" ng-disabled="">Submit</button>
+        </caption>
+        <tr ng-repeat="d in vm.data">
+            <td ng-bind="d.id"></td>
+            <td ng-bind="d.name"></td>
+            <td ng-bind="d.age"></td>
+        </tr>
+    </table>
 {% endblock %}

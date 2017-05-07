@@ -1,8 +1,8 @@
 {% load staticfiles %}
-<html>
+<html ng-app="scanApp">
 <head>
     {% include 'scan/_css_head.html' %}
-{#    {% include 'scan/_script_head.html' %}#}
+    {% include 'scan/_script_head.html' %}
     <title>{% block title %}Index{% endblock %}</title>
 </head>
 <body>
@@ -34,6 +34,51 @@
                 <dd>炉石传说</dd>
                 <dd>DOTA2</dd>
                 <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
+                <dt>热门游戏</dt>
+                <dd>英雄联盟</dd>
+                <dd>炉石传说</dd>
+                <dd>DOTA2</dd>
+                <dd>穿越火线</dd>
             </dl>
         </div>
         <div id="main-content">
@@ -43,9 +88,46 @@
     </div>
     <footer>{% block footer %}{% endblock %}</footer>
     <script>
+        function findDD(e){
+            var res = [];
+            e = e.nextElementSibling;
+            while (e) {
+                if (e.nodeName === 'DD') {
+                    res.push(e);
+                    e = e.nextElementSibling;
+                } else {
+                    break;
+                }
+            }
+            return res;
+        }
+        $(document).ready(function(){
+            console.log('1111111111');
+            var $dd = $('dd'), $dt = $('dt'), temp={};
+            $dd.hide();
+            $dt.on('click', function(){
+                var $self = $(this);
+                if (! $self.hasClass('active')) {
+                    $dd.slideUp();
+                    $(findDD(this)).slideToggle();
 
+                    $dt.removeClass('active');
+                    $self.addClass('active');
+                } else {
+                    $dd.slideUp();
+                }
+            });
+        });
     </script>
-    <script scr="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+    <script>
+        window.scanApp = angular.module('scanApp', [])
+            .config(['$httpProvider', function($httpProvider){
+                $httpProvider.defaults.headers.common = {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            }]);
+    </script>
     {% include 'scan/_script_body.html' %}
 </body>
 </html>
