@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from django.conf import settings
 from scan import urls as scan_urls
 
 urlpatterns = [
     url(r'', include(scan_urls, namespace='scan')),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns.append(
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    )
