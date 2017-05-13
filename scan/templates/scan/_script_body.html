@@ -1,4 +1,20 @@
 {% load staticfiles %}
-<script src="{% static 'js/script.js' %}"></script>
-<script src="{% static 'angular/service.js' %}"></script>
-<script src="{% static 'angular/controllers/indexCtrl.js' %}"></script>
+{% load compress %}
+<script>
+window.scanApp = angular.module('scanApp', [])
+    .config(['$httpProvider', function($httpProvider){
+        $httpProvider.defaults.headers.common = {
+            'X-CSRFToken': '{{ csrf_token }}',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    }])
+    .config(['$interpolateProvider', function($interpolateProvider){
+        $interpolateProvider.startSymbol('{$').endSymbol('$}');
+    }])
+</script>
+{% compress js %}
+<script src="{% static 'scan/js/script.js' %}"></script>
+<script src="{% static 'scan/angular/service.js' %}"></script>
+    <script src="{% static 'scan/angular/controllers/alertCtrl.js' %}"></script>
+<script src="{% static 'scan/angular/controllers/indexCtrl.js' %}"></script>
+{% endcompress %}

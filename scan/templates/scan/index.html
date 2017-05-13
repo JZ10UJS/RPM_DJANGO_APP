@@ -1,16 +1,30 @@
 {% extends 'scan/base.html' %}
 {% block main %}
-    </form>
-    <table ng-controller="indexCtrl as vm" style="color:white">
-        <caption>
-            <input ng-model="vm.info.name" ng-minlength="4"/>
-            <input ng-model="vm.info.age" type="number"/>
-            <button ng-click="vm.submit()" ng-disabled="">Submit</button>
+    <table ng-controller="indexCtrl as vm" class="table table-striped">
+        <caption class="row">
+            <div class="col-sm-9">
+                <div class="form-inline">
+                    <input class='form-control' ng-model="vm.info.name" ng-minlength="4"/>
+                    <select class='form-control' ng-model="vm.info.privacy"
+                            ng-options="i.value as i.label for i in [{label:'Public', value:'pu'},{label:'Private', value:'pr'}]"></select>
+                    <textarea class='form-control' ng-model="vm.info.description" rows="1"></textarea>
+                    <a class='btn btn-primary btn-sm' ng-click="vm.submit()" ng-disabled="">Submit</a>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <a class='btn btn-info btn-sm btn-refresh' ng-click="vm.addDanger()">
+                    <span class="glyphicon glyphicon-refresh"></span> Danger
+                </a>
+                <a class='btn btn-info btn-sm pull-right btn-refresh' ng-click="vm.refresh($event)">
+                    <span class="glyphicon glyphicon-refresh"></span> Refresh
+                </a>
+            </div>
         </caption>
         <tr ng-repeat="d in vm.data">
             <td ng-bind="d.id"></td>
             <td ng-bind="d.name"></td>
-            <td ng-bind="d.age"></td>
+            <td ng-bind="d.privacy"></td>
+            <td ng-bind="d.description"></td>
         </tr>
     </table>
 {% endblock %}

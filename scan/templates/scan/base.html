@@ -81,7 +81,14 @@
                 <dd>穿越火线</dd>
             </dl>
         </div>
-        <div id="main-content">
+        <div id="main-content" class="row">
+            {% if messages %}
+                <ul class="messagelist">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
             {% block main %}
             {% endblock %}
         </div>
@@ -119,15 +126,12 @@
             });
         });
     </script>
-    <script>
-        window.scanApp = angular.module('scanApp', [])
-            .config(['$httpProvider', function($httpProvider){
-                $httpProvider.defaults.headers.common = {
-                    'X-CSRFToken': '{{ csrf_token }}',
-                    'X-Requested-With': 'XMLHttpRequest'
-                }
-            }]);
-    </script>
     {% include 'scan/_script_body.html' %}
+    <div class="alert-block" ng-controller="alertCtrl as vm">
+        <div id='{$ d.id $}' ng-repeat="d in vm.messages" class="{$ 'alert-message active alert alert-' + d.level $}">
+            <button class="close" ng-click="vm.remove($event, $index)"><span>&times;</span></button>
+            {$ d.msg $}
+        </div>
+    </div>
 </body>
 </html>
