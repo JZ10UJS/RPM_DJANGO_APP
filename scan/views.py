@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, redirect
 from django.views import generic
-
+from django.contrib import messages
 
 # Create your views here.
 class IndexView(generic.TemplateView):
@@ -8,5 +8,7 @@ class IndexView(generic.TemplateView):
 
     def post(self, request):
         data = request.POST
-        print data
         return redirect(reverse('scan:index'))
+
+    def get(self, request):
+        return super(IndexView, self).get(request)

@@ -5,6 +5,7 @@
 header > ul {
     background-color: darkslateblue;
     height: 40px;
+    margin-bottom: 0;
 }
 a {
     text-decoration: none;
@@ -33,16 +34,22 @@ body {
     height: calc(100vh - 40px);
     margin-top: 40px;
     background-color: #c0c1c2;
-    color: #eee;
+    color: #ececec;
+    font-weight: normal;
 }
 #wrapper .left-nav  dt {
     background-color: #2324ff;
     font-size: 14px;
     text-indent: 20px;
     padding: 5px 0;
+    cursor: pointer;
+    font-weight: normal;
+}
+#wrapper .left-nav  dt:not(:last-of-type) {
+    border-bottom: 1px #eeeeee dashed;
 }
 #wrapper .left-nav  dt:hover {
-    opacity: 0.8;
+    background-color: #2324b1;
 }
 #wrapper .left-nav  dd {
     background-color: #3c59a2;
@@ -54,7 +61,43 @@ body {
 }
 #wrapper #main-content {
     margin-left: 200px;
+    padding: 0 20px;
     width: calc(100% - 200px);
-    height: 500px;
-    background-color: #85003a;
+    height: calc(100vh - 40px);
+}
+
+.btn-refresh.refresh-active > span.glyphicon-refresh {
+    transform: rotate(360deg);
+    transition: transform 1s;
+}
+
+.alert-block {
+    position: fixed;
+    top: 60px;
+    right: 40px;
+    width: 250px;
+}
+.alert-block .alert-message {
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border: 0;
+    transition: 1s opacity, 1s 0.3s height, 1s 0.3s padding-top, 1s 0.3s padding-bottom, 1s 0.3s margin, 1s 0.3s border;
+}
+.alert-block .alert-message > button.close{
+    display: none;
+}
+.alert-block .alert-message.active {
+    height: 52px;
+    opacity: 1;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+.alert-block .alert-message.active > button.close {
+    display: block;
+}
+#djShowToolBarButton{
+    display: none !important;
 }
