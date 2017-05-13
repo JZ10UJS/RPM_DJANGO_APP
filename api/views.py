@@ -1,49 +1,55 @@
 from django.views import generic
-from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponseNotFound, HttpResponse
+from django.forms.models import model_to_dict
 
-import json
+from scan.models import Template
+
+import json, logging
 
 DATA = [{'name': 'name-%s' % i, 'age': i, 'id': 'id-%s' % i} for i in range(5)]
+
+_logger = logging.getLogger(__name__)
 
 
 class AjaxView(generic.View):
     def dispatch(self, request, *args, **kwargs):
         if not request.is_ajax():
+            _logger.debug('request without ajax, return 403 Forbidden')
             return HttpResponseForbidden()
         return super(AjaxView, self).dispatch(request, *args, **kwargs)
 
 
 class InfoView(AjaxView):
     def get(self, request):
-        return JsonResponse({'items': DATA})
+        t_obj = Template.objects.all()[:20]
+        _logger.debug('get info list view')
+        data = [model_to_dict(i) for i in t_obj]
+        return JsonResponse({'items': data})
 
     def post(self, request):
         d = json.loads(request.body)
-        DATA.append(d)
-        return JsonResponse({'item': d})
+        _logger.info('create a new info')
+        a = Template.objects.create(**d)
+        return JsonResponse({'item': model_to_dict(a)})
 
 
 class InfoDetailView(AjaxView):
     def get(self, request, p_id):
-        for i in DATA:
-            if i['id'] == p_id:
-                return JsonResponse({'item': i})
-        return HttpResponseNotFound()
+        a = Template.objects.get(pk=p_id)
+        _logger.debug('get detail of %r' % a)
+        return JsonResponse({'item': model_to_dict(a)})
+
+    def delete(self, request, p_id):
+        Template.objects.get(pk=p_id).delete()
+        _logger.info('delete obj of Template<id: %s>' % p_id)
+        return HttpResponse(status=204)
 
     def patch(self, request, p_id):
         data = json.loads(request.body)
         data.pop('id', None)
-        for i in DATA:
-            if i['id'] == p_id:
-                i.update(data)
-                return JsonResponse({'item': i})
-        return HttpResponseNotFound()
+        a = Template.objects.get(pk=p_id).update(data)
+        _logger.info('update object %r' % a)
+        return JsonResponse({'item': model_to_dict(a)})
 
     def put(self, request, p_id):
-        data = json.loads(request.body)
-        data['id'] = data.get('id', p_id)
-        for i in range(len(DATA)):
-            if DATA[i]['id'] == p_id == data['id']:
-                DATA[i] = data
-                return JsonResponse({'item': DATA[i]})
-        return HttpResponseNotFound()
+        return self.patch(request, p_id)
