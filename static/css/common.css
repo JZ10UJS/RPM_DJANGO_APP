@@ -73,8 +73,8 @@ body {
 
 .alert-block {
     position: fixed;
-    top: 60px;
-    right: 40px;
+    top: 90px;
+    right: 20px;
     width: 250px;
 }
 .alert-block .alert-message {
