@@ -138,41 +138,41 @@ COMPRESS_ENABLED = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'root_static')
 
 # Logging Config
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'default': {
-            'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        }
-    },
-    'handlers': {
-        'null': {
-            'level': 'DEBUG',
-            'class': 'logging.NullHandler',
-        },
-        'console_1': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'default',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'formatter': 'default',
-            'filename': 'e:/desktop/logfile.log',
-            'maxBytes': 1024 * 16,
-            'backupCount': 3,
-        },
-    },
-    'loggers': {
-        'api': {
-            'handlers': ['console_1', 'file'],
-            'propagate': True,
-            'level': 'DEBUG',
-        }
-    }
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'default': {
+#             'format': '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#         }
+#     },
+#     'handlers': {
+#         'null': {
+#             'level': 'DEBUG',
+#             'class': 'logging.NullHandler',
+#         },
+#         'console_1': {
+#             'level': 'INFO',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'default',
+#         },
+#         'file': {
+#             'level': 'DEBUG',
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'formatter': 'default',
+#             'filename': 'e:/desktop/logfile.log',
+#             'maxBytes': 1024 * 16,
+#             'backupCount': 3,
+#         },
+#     },
+#     'loggers': {
+#         'api': {
+#             'handlers': ['console_1', 'file'],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         }
+#     }
+# }
 
 
 DEBUG_TOOLBAR_PANELS = [
