@@ -1,4 +1,7 @@
 include requirements.txt
+include manage.py
+include django-scan-httpd.conf
+include django-scan.spec
 recursive-include static *
 recursive-include scan/static *
 recursive-include scan/templates *
