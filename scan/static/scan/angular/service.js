@@ -9,6 +9,9 @@
             },
             post: function(data){
                 return $http.post(url, data);
+            },
+            put: function(id, data){
+                return $http.put(url + id, data);
             }
         }
     }).factory('alertFactory', ['$timeout', function($timeout){

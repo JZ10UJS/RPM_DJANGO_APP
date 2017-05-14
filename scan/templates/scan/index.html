@@ -4,17 +4,18 @@
         <caption class="row">
             <div class="col-sm-9">
                 <div class="form-inline">
-                    <input class='form-control' ng-model="vm.info.name" ng-minlength="4"/>
+                    <form name="test_form">
+                    <div class="form-group" ng-class='{"has-error": test_form.name.$invalid}'>
+                        <input name='name' class='form-control' ng-model="vm.info.name" minlength="4"/>
+                    </div>
                     <select class='form-control' ng-model="vm.info.privacy"
                             ng-options="i.value as i.label for i in [{label:'Public', value:'pu'},{label:'Private', value:'pr'}]"></select>
                     <textarea class='form-control' ng-model="vm.info.description" rows="1"></textarea>
-                    <a class='btn btn-primary btn-sm' ng-click="vm.submit()" ng-disabled="">Submit</a>
+                    <a class='btn btn-primary btn-sm' ng-click="vm.submit()" ng-disabled="test_form.name.$invalid">Submit</a>
+                    </form>
                 </div>
             </div>
             <div class="col-sm-3">
-                <a class='btn btn-info btn-sm btn-refresh' ng-click="vm.addDanger()">
-                    <span class="glyphicon glyphicon-refresh"></span> Danger
-                </a>
                 <a class='btn btn-info btn-sm pull-right btn-refresh' ng-click="vm.refresh($event)">
                     <span class="glyphicon glyphicon-refresh"></span> Refresh
                 </a>
@@ -22,7 +23,11 @@
         </caption>
         <tr ng-repeat="d in vm.data">
             <td ng-bind="d.id"></td>
-            <td ng-bind="d.name"></td>
+            <td>
+                <span ng-if='d.status=="ld"' class="loading-icon"><i></i><i></i><i></i></span>
+                <span ng-if="d.status=='ac'" class="text-success ng-scope glyphicon glyphicon-ok"></span>
+                {$ d.name $}
+            </td>
             <td ng-bind="d.privacy"></td>
             <td ng-bind="d.description"></td>
         </tr>

@@ -4,7 +4,7 @@ from django.forms.models import model_to_dict
 
 from scan.models import Template
 
-import json, logging
+import json, logging, random
 
 DATA = [{'name': 'name-%s' % i, 'age': i, 'id': 'id-%s' % i} for i in range(5)]
 
@@ -21,13 +21,14 @@ class AjaxView(generic.View):
 
 class InfoView(AjaxView):
     def get(self, request):
-        t_obj = Template.objects.all()[:20]
+        t_obj = Template.objects.all().order_by('-id')[:10]
         _logger.debug('get info list view')
         data = [model_to_dict(i) for i in t_obj]
         return JsonResponse({'items': data})
 
     def post(self, request):
         d = json.loads(request.body)
+        d['status'] = d.get('status', random.choice(['ld', 'ac']))
         _logger.info('create a new info')
         a = Template.objects.create(**d)
         return JsonResponse({'item': model_to_dict(a)})
@@ -46,8 +47,9 @@ class InfoDetailView(AjaxView):
 
     def patch(self, request, p_id):
         data = json.loads(request.body)
-        data.pop('id', None)
-        a = Template.objects.get(pk=p_id).update(data)
+        data['id'] = data['id'] or p_id
+        a = Template(**data)
+        a.save()
         _logger.info('update object %r' % a)
         return JsonResponse({'item': model_to_dict(a)})
 
