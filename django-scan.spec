@@ -37,10 +37,11 @@ virtualenv .venv --setuptools --no-site-packages -q
 source ./.venv/bin/activate
 pip install -r requirements.txt -i http://mirrors.aliyun.com/pypi/simple
 tar -zcf %{name}-%{version}-venv.tar.gz ./.venv/
-rm %{buildroot}%{_sysconfdir}/%{name}/%{name}-%{version}-venv.tar.gz
 
-python manage.py collectstatic
+python manage.py collectstatic --no-input
 python manage.py compress --force
+python manage.py makemigrations && python manage.py migrate
+python manage.py makemigrations scan && python manage.py migrate
 
 mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d/
 %{__install} -m 0644 django-scan-httpd.conf %{buildroot}%{_sysconfdir}/httpd/conf.d/
@@ -49,9 +50,9 @@ mkdir -p %{buildroot}%{_sysconfdir}/httpd/conf.d/
 mkdir -p %{buildroot}%{_sysconfdir}/%{name}/
 %{__install} -d %{buildroot}%{_sysconfdir}/%{name}/
 
-ls -alt
 mv * %{buildroot}%{_sysconfdir}/%{name}/
 tar -zxf %{buildroot}%{_sysconfdir}/%{name}/%{name}-%{version}-venv.tar.gz
+rm %{buildroot}%{_sysconfdir}/%{name}/%{name}-%{version}-venv.tar.gz
 
 %files
 %defattr(-, apache, apache)
@@ -60,3 +61,4 @@ tar -zxf %{buildroot}%{_sysconfdir}/%{name}/%{name}-%{version}-venv.tar.gz
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+rm -rf $RPM_BUILD
